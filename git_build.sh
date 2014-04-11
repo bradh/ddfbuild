@@ -1,9 +1,5 @@
 #!/bin/bash
 
-DDF_VERSION=2.3.1-SNAPSHOT
-
-INSTALL_DIR=install
-
 CODICE_HOME=https://github.com/codice/
 OPENDX_HOME=https://github.com/OpenDX/
 BRADH_HOME=https://github.com/bradh/
@@ -73,9 +69,4 @@ do
   buildUsingMaven $BRADH_COMPONENT
 done
 
-rm -rf $INSTALL_DIR
-mkdir $INSTALL_DIR
-cd $INSTALL_DIR
-unzip ../ddf/distribution/ddf/target/ddf-$DDF_VERSION.zip
-cd ddf-$DDF_VERSION
-./bin/ddf
+
