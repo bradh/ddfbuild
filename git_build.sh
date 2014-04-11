@@ -1,11 +1,18 @@
 #!/bin/bash
 
+DDF_VERSION=2.3.1-SNAPSHOT
+
+INSTALL_DIR=install
+
 CODICE_HOME=https://github.com/codice/
 OPENDX_HOME=https://github.com/OpenDX/
+BRADH_HOME=https://github.com/bradh/
 
-DDF_COMPONENTS=(ddf-support ddf-parent ddf-admin ddf-platform ddf-security ddf-catalog ddf-content ddf-spatial ddf-solr ddf-ui ddf)
+# DDF_COMPONENTS=(ddf-support ddf-parent ddf-platform ddf-admin  ddf-security ddf-catalog ddf-content ddf-spatial ddf-solr ddf-stomp ddf-ui ddf)
+DDF_COMPONENTS=(ddf-support ddf-parent ddf-platform ddf-admin  ddf-security ddf-catalog ddf-content ddf-spatial ddf-solr ddf-ui ddf)
 # OPENDX_COMPONENTS=(nitf-input-transformer ais-parser ais-input-transformer xmpp-input-transformer)
 OPENDX_COMPONENTS=(nitf-input-transformer xmpp-input-transformer)
+BRADH_COMPONENTS=(ddf-jpeginputransformer)
 
 export MAVEN_OPTS='-Xmx1024M -XX:MaxPermSize=512M'
 
@@ -23,6 +30,15 @@ function cloneCodiceComponentIfNeeded {
 
 function cloneOpenDXComponentIfNeeded {
   GITHUB_PATH=$OPENDX_HOME$1
+  echo $GITHUB_PATH
+  # if we don't already have repo checked out, clone it
+  if [[ ! -d $1 ]]; then
+    git clone $GITHUB_PATH
+  fi
+}
+
+function cloneBradhComponentIfNeeded {
+  GITHUB_PATH=$BRADH_HOME$1
   echo $GITHUB_PATH
   # if we don't already have repo checked out, clone it
   if [[ ! -d $1 ]]; then
@@ -51,3 +67,15 @@ do
   buildUsingMaven $OPENDX_COMPONENT
 done
 
+for BRADH_COMPONENT in ${BRADH_COMPONENTS[*]}
+do
+  cloneBradhComponentIfNeeded $BRADH_COMPONENT
+  buildUsingMaven $BRADH_COMPONENT
+done
+
+rm -rf $INSTALL_DIR
+mkdir $INSTALL_DIR
+cd $INSTALL_DIR
+unzip ../ddf/distribution/ddf/target/ddf-$DDF_VERSION.zip
+cd ddf-$DDF_VERSION
+./bin/ddf
