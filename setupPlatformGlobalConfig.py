@@ -5,6 +5,8 @@ from selenium.webdriver.support.ui import Select
 from selenium.common.exceptions import NoSuchElementException
 import unittest, time, re
 
+from ddfConfigParameters import siteContact, ipAddress, siteIdentifier
+
 class SetupOpenSearch(unittest.TestCase):
     def setUp(self):
         self.driver = webdriver.Firefox()
@@ -14,18 +16,26 @@ class SetupOpenSearch(unittest.TestCase):
         self.accept_next_alert = True
     
     def test_setup_platform_global_configuration(self):
-        driver = self.driver
-        driver.get(self.base_url + "/system/console/configMgr")
-        # driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[44]/td").click()
-        driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[*]/td[text()='Platform Global Configuration']").click()
-        driver.find_element_by_name("host").clear()
-        driver.find_element_by_name("host").send_keys("192.168.40.182")
-        driver.find_element_by_name("contact").clear()
-        driver.find_element_by_name("contact").send_keys("bradh@frogmouth.net")
-        driver.find_element_by_name("id").clear()
-        driver.find_element_by_name("id").send_keys("ddf test site1")
-        driver.find_element_by_xpath("(//button[@type='button'])[5]").click()
+        self.navigate_to_config_page()
+        self.click_config_menu_entry("Platform Global Configuration")
+        self.fill_field("host", ipAddress)
+        self.fill_field("contact", siteContact)
+        self.fill_field("id", siteIdentifier)
+        self.click_save()
     
+    def navigate_to_config_page(self):
+        self.driver.get(self.base_url + "/system/console/configMgr")
+
+    def click_config_menu_entry(self, entryLabel):
+        self.driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[*]/td[text()='" + entryLabel + "']").click()
+
+    def fill_field(self, fieldName, value):
+        self.driver.find_element_by_name(fieldName).clear()
+        self.driver.find_element_by_name(fieldName).send_keys(value)
+
+    def click_save(self):
+        self.driver.find_element_by_xpath("(//button[@type='button'])[text()='Save']").click()
+
     def is_element_present(self, how, what):
         try: self.driver.find_element(by=how, value=what)
         except NoSuchElementException, e: return False
