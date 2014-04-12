@@ -16,15 +16,8 @@ class SetupOpenSearch(unittest.TestCase):
     def test_setup_open_search(self):
         driver = self.driver
         driver.get(self.base_url + "/system/console/configMgr")
-        driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[44]/td").click()
-        driver.find_element_by_name("host").clear()
-        driver.find_element_by_name("host").send_keys("192.168.40.182")
-        driver.find_element_by_name("contact").clear()
-        driver.find_element_by_name("contact").send_keys("bradh@frogmouth.net")
-        driver.find_element_by_name("id").clear()
-        driver.find_element_by_name("id").send_keys("ddf test site1")
-        driver.find_element_by_xpath("(//button[@type='button'])[5]").click()
-        driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[30]/td").click()
+        # driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[30]/td").click()
+        driver.find_element_by_xpath("//table[@id='configTable']/tbody/tr[*]/td[text()='OpenSearch Description Document Configuration']").click()
         driver.find_element_by_name("osddEnabled").click()
         driver.find_element_by_xpath("(//button[@type='button'])[5]").click()
     
