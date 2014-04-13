@@ -8,4 +8,5 @@ cd $INSTALL_DIR
 unzip ../ddf/distribution/ddf/target/ddf-$DDF_VERSION.zip
 cd ddf-$DDF_VERSION
 
-expect ../../ddfStartup.expect
+# expect ../../ddfStartup.expect
+python ../../ddfStartup.py
