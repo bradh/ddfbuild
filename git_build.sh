@@ -45,7 +45,7 @@ function cloneBradhComponentIfNeeded {
 # change into the working directory, update, build and move back to this directory
 function buildUsingMaven {
   cd $1
-  git stash
+  git reset --hard
   git pull
   mvn clean install -DskipTests=true
   mvn sonar:sonar
