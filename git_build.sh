@@ -5,12 +5,12 @@ OPENDX_HOME=https://github.com/OpenDX/
 BRADH_HOME=https://github.com/bradh/
 
 # DDF_COMPONENTS=(ddf-support ddf-parent ddf-platform ddf-admin  ddf-security ddf-catalog ddf-content ddf-spatial ddf-solr ddf-stomp ddf-ui ddf)
-DDF_COMPONENTS=(ddf-support ddf-parent ddf-platform ddf-admin  ddf-security ddf-catalog ddf-content ddf-spatial ddf-solr ddf-ui ddf)
+DDF_COMPONENTS=(ddf-support ddf)
 # OPENDX_COMPONENTS=(nitf-input-transformer ais-parser ais-input-transformer xmpp-input-transformer)
 OPENDX_COMPONENTS=(nitf-input-transformer xmpp-input-transformer)
 BRADH_COMPONENTS=(imaging-nitf ddf-nitfinputtransformer ddf-jpeginputransformer)
 
-export MAVEN_OPTS='-Xmx1024M -XX:MaxPermSize=512M'
+export MAVEN_OPTS='-Xmx1024M'
 
 # Exit if anything breaks
 set -e
